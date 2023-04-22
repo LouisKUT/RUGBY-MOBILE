@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as Path;
 import 'package:flutter/src/foundation/key.dart';
@@ -159,121 +160,146 @@ class _MainScreenState extends State<MainScreen> {
                 final results = snapshot.data;
                 print(results.toString());
                 if (snapshot.hasData) {
-                  return GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 1
-        ,
-        childAspectRatio: 2.0,
-        crossAxisSpacing: 1.0,
-        mainAxisSpacing: 1.0,
-      ),
-      
-                      itemBuilder: (BuildContext context, int index) { 
-                        final team =results!.data.rugbyteams[index];
-                        return Container(
-                          decoration: BoxDecoration(
-            border: Border(
-              
-              right: BorderSide(
-                color: Colors.blue.withOpacity(0.5),
-                width: 1.0,
-              ),
-            ),
-          ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-
-
-                   children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
+                  return 
+                    GridView.builder(
+                      padding: const EdgeInsets.all(15),
+                      itemCount: snapshot.data!.data.rugbyteams.length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 1
+                          ,
+                          childAspectRatio: 2.5,
+                          crossAxisSpacing: 5.0,
+                          mainAxisSpacing: 12.0,
+                          
+                        ),
+                        
+                        itemBuilder: (BuildContext context, int index) { 
+                          final team =results!.data.rugbyteams[index];
+                          //File pic =team.rtTeamLogoUrl as File;
+                          final picurl = team.rtTeamLogoUrl.toString();
+                          final url = 'http://'+picurl;
+                          final urlget = 
+                          Uri.parse(url);
+                          return Container(
+                             
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(15)),
+                              color: Color.fromARGB(255, 2, 46, 85),
+                              // border: Border(
+                                
+                              //   right: BorderSide(
+                              //     color: Colors.black,
+                              //     width: 1.0,
+                              //   ),
+                              // ),
+                            ),
+                                  child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Image.network(
-                      //   team.logoUrl,
-                      //   height: 100.0,
-                      //   width: 100.0,
-                      //   fit: BoxFit.contain,
-                      // ),
-                      SizedBox(height: 8.0),
-                      Text(
-                        'Team name',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.0,
+                  
+                  
+                     children: [
+                                Expanded(
+                                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        
+                        SizedBox(height: 5.0),
+                        Text(
+                          team.rtName,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 10.0,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Social Media Handles:',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14.0,
+                  SizedBox(height: 5.0),
+                        Image.network(
+                          url,
+                          height: 50.0,
+                          width: 50.0,
+                          fit: BoxFit.contain,
                         ),
-                      ),
-                      SizedBox(height: 8.0),
-                      Text(
-                        'Social Media',
-                        style: TextStyle(
-                          fontSize: 14.0,
+                       // Image.file(pic),
+                       // Image.memory(team.rtTeamLogoUrl).image;
+                       
+                      ],
+                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Text(
+                        //   'Social Media Handles:',
+                        //   style: TextStyle(
+                        //     color: Colors.white,
+                        //     fontWeight: FontWeight.bold,
+                        //     fontSize: 14.0,
+                        //   ),
+                        // ),
+                        // SizedBox(height: 8.0),
+                        Text(
+                          team.rtAbbr,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 10.0,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 8.0),
-                      Text(
-                        'Email:',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14.0,
+                        SizedBox(height: 5.0),
+                        Text(
+                          'Email:',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14.0,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 8.0),
-                      Text(
-                        'kizito mata@gmail.com',
-                        style: TextStyle(
-                          fontSize: 14.0,
+                        SizedBox(height: 5.0),
+                        Text(
+                          team.rtEmail,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 10.0,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 8.0),
-                      Text(
-                        'Motto:',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14.0,
+                        SizedBox(height: 5.0),
+                        Text(
+                          'Since:',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 10.0,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 8.0),
-                      Text(
-                        'the struggle cntinues',
-                        style: TextStyle(
-                          fontSize: 14.0,
+                        SizedBox(height: 5.0),
+                        Text(
+                          team.rtDateCreated.toString(),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14.0,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-                 
-
-
-                  // children: List.generate(
-                  //         results.data.rugbyteams.length,
-                  //         (index) => Text(
-                  //             results.data.rugbyteams[index].facebookUrl))
-                              
-                              ), ); 
-                      });
+                      ],
+                    ),
+                                  ),
+                                ),
+                              ],
+                                   
+                  
+                  
+                    // children: List.generate(
+                    //         results.data.rugbyteams.length,
+                    //         (index) => Text(
+                    //             results.data.rugbyteams[index].facebookUrl))
+                                
+                                ), ); 
+                        }
+                  );
                 } 
                 else if (snapshot.hasError) {
                   return Text('${snapshot.error}');
