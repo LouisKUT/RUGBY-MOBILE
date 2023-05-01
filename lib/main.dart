@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:rugby_mobile/pages/home.dart';
 
-void main() {
+
+
+Future<void> main() async {
+  
   runApp(const MyApp());
 }
 

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rugby_mobile/pages/MainScreen.dart';
 import 'package:rugby_mobile/pages/Scores.dart';
-import 'package:rugby_mobile/pages/fixtures.dart';
-import 'package:rugby_mobile/pages/videos.dart';
+import 'package:rugby_mobile/pages/fixtures/fixtures.dart';
+import 'package:rugby_mobile/pages/playlists.dart';
+import 'package:rugby_mobile/video/videos.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -15,7 +16,8 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Widget> _widgetOptions = <Widget>[
     MainScreen(),
     const FixtureScreen(),
-    Videos(),
+   // Videos(),
+   Playlists(),
     Scores(),
   ];
 

@@ -194,14 +194,14 @@ class _MainScreenState extends State<MainScreen> {
                               // ),
                             ),
                                   child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                     crossAxisAlignment: CrossAxisAlignment.start,
                   
                   
                      children: [
                                 Expanded(
                                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
+                     padding: const EdgeInsets.all(8.0),
+                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         
@@ -214,7 +214,7 @@ class _MainScreenState extends State<MainScreen> {
                             fontSize: 10.0,
                           ),
                         ),
-                  SizedBox(height: 5.0),
+                    SizedBox(height: 5.0),
                         Image.network(
                           url,
                           height: 50.0,
