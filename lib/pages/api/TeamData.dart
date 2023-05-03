@@ -2,18 +2,19 @@
 //
 //     final post = postFromMap(jsonString);
 
+import 'package:meta/meta.dart';
 import 'dart:convert';
 
-class  Post {
+class Post {
+    int status;
+    String message;
+    Data data;
+
     Post({
         required this.status,
         required this.message,
         required this.data,
     });
-
-    int status;
-    String message;
-    Data data;
 
     factory Post.fromJson(String str) => Post.fromMap(json.decode(str));
 
@@ -33,13 +34,13 @@ class  Post {
 }
 
 class Data {
+    int total;
+    List<Team> teams;
+
     Data({
         required this.total,
-        required this.rugbyteams,
+        required this.teams,
     });
-
-    int total;
-    List<Rugbyteam> rugbyteams;
 
     factory Data.fromJson(String str) => Data.fromMap(json.decode(str));
 
@@ -47,17 +48,39 @@ class Data {
 
     factory Data.fromMap(Map<String, dynamic> json) => Data(
         total: json["Total"],
-        rugbyteams: List<Rugbyteam>.from(json["rugbyteams"].map((x) => Rugbyteam.fromMap(x))),
+        teams: List<Team>.from(json["Teams"].map((x) => Team.fromMap(x))),
     );
 
     Map<String, dynamic> toMap() => {
         "Total": total,
-        "rugbyteams": List<dynamic>.from(rugbyteams.map((x) => x.toMap())),
+        "Teams": List<dynamic>.from(teams.map((x) => x.toMap())),
     };
 }
 
-class Rugbyteam {
-    Rugbyteam({
+class Team {
+    String idRugbyTeams;
+    String districtId;
+    int statManagerId;
+    String rtName;
+    String rtAbbr;
+    String rtYearFormed;
+    String rtDetails;
+    String rtWebsite;
+    RtTeamLogoUrl rtTeamLogoUrl;
+    String rtEmail;
+    String rtMobile;
+    String facebookUrl;
+    String twitterUrl;
+    String instagramUrl;
+    RtLocationL rtLocationLat;
+    RtLocationL rtLocationLong;
+    int rtCreatedBy;
+    int rtUpdatedBy;
+    DateTime rtDateCreated;
+    DateTime rtDateUpdated;
+    int enabled;
+
+    Team({
         required this.idRugbyTeams,
         required this.districtId,
         required this.statManagerId,
@@ -81,33 +104,11 @@ class Rugbyteam {
         required this.enabled,
     });
 
-    String idRugbyTeams;
-    String districtId;
-    int statManagerId;
-    String rtName;
-    String rtAbbr;
-    String rtYearFormed;
-    String rtDetails;
-    String rtWebsite;
-    RtTeamLogoUrl rtTeamLogoUrl;
-    String rtEmail;
-    String rtMobile;
-    String facebookUrl;
-    String twitterUrl;
-    String instagramUrl;
-    RtLocationL rtLocationLat;
-    RtLocationL rtLocationLong;
-    int rtCreatedBy;
-    int rtUpdatedBy;
-    DateTime rtDateCreated;
-    DateTime rtDateUpdated;
-    int enabled;
-
-    factory Rugbyteam.fromJson(String str) => Rugbyteam.fromMap(json.decode(str));
+    factory Team.fromJson(String str) => Team.fromMap(json.decode(str));
 
     String toJson() => json.encode(toMap());
 
-    factory Rugbyteam.fromMap(Map<String, dynamic> json) => Rugbyteam(
+    factory Team.fromMap(Map<String, dynamic> json) => Team(
         idRugbyTeams: json["idRugbyTeams"],
         districtId: json["DistrictId"],
         statManagerId: json["StatManagerId"],

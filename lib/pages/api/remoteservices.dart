@@ -13,7 +13,7 @@ class RemoteService {
         "Access-Control-Allow-Origin": "*",
       };
     final response = await  http.get(Uri.parse('https://sports-info-api.onrender.com/v1/public/teams'), headers: headers());
-
+print("Teams data:" + response.toString());
     return Post.fromJson(response.body);
   }
 }

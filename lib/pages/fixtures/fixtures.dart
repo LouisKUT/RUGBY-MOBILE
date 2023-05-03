@@ -57,7 +57,7 @@ class _FixtureScreenState extends State<FixtureScreen> {
             future: RemoteService().getFixtures(),
             builder: (context, snapshot) {
               final results = snapshot.data;
-              print(results.toString());
+              print("Fixtures result:"+results.toString());
               if (snapshot.hasData) {
                // return ListView.builder(
                  //   padding: const EdgeInsets.all(15),

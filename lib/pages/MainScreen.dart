@@ -8,6 +8,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:rugby_mobile/pages/api/TeamData.dart';
 import 'package:rugby_mobile/pages/api/remoteservices.dart';
+//import 'package:rugby_mobile/pages/api/remoteservices.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -158,12 +159,12 @@ class _MainScreenState extends State<MainScreen> {
               future: RemoteService().getTeamsData(),
               builder: (context, snapshot) {
                 final results = snapshot.data;
-                print(results.toString());
+                print("Teams results: "+results.toString());
                 if (snapshot.hasData) {
                   return 
                     GridView.builder(
                       padding: const EdgeInsets.all(15),
-                      itemCount: snapshot.data!.data.rugbyteams.length,
+                      itemCount: snapshot.data!.data.teams.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 1
                           ,
@@ -174,7 +175,7 @@ class _MainScreenState extends State<MainScreen> {
                         ),
                         
                         itemBuilder: (BuildContext context, int index) { 
-                          final team =results!.data.rugbyteams[index];
+                          final team =results!.data.teams[index];
                           //File pic =team.rtTeamLogoUrl as File;
                           final picurl = team.rtTeamLogoUrl.toString();
                           final url = 'http://'+picurl;
