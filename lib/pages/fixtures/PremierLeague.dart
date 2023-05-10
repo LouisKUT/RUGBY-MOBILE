@@ -1,5 +1,21 @@
 import 'package:flutter/material.dart';
 class PremierLeague extends StatelessWidget {
+  var todo;
+  final hometeam;
+  
+  var awayteam;
+  
+  var hometeamlogoUrl;
+  
+  var awayteamlogoUrl;
+  
+  var matchtime;
+
+  //const PremierLeague(String hometeam, DateTime awayteam, String hometeamlogoUrl, String awayteamlogoUrl, DateTime matchtime);
+   PremierLeague({super.key, required this.hometeam,required this.awayteam,required this.hometeamlogoUrl,required this.awayteamlogoUrl,
+   required this.matchtime
+   });
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,11 +47,12 @@ class PremierLeague extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "24'",
+                    Text("12:00",
+                   //matchtime.toString(),
                       style: TextStyle(
                         color: Colors.amber,
                         fontSize: 17,
@@ -48,7 +65,7 @@ class PremierLeague extends StatelessWidget {
                   child: Row(
                     children: [
                       Text(
-                        "Wolves",
+                        hometeam,
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 17,
@@ -57,8 +74,8 @@ class PremierLeague extends StatelessWidget {
                       ),
                       Container(
                         padding: EdgeInsets.only(left: 5, right: 5, ),
-                        child: Image.asset(
-                            "assets/images/wolves.png",
+                        child: Image.network(
+                            hometeamlogoUrl,
                             height: 38,
                             width: 38
                         ),
@@ -73,14 +90,14 @@ class PremierLeague extends StatelessWidget {
                       ),
                       Container(
                         padding: EdgeInsets.only(left: 5, right: 5),
-                        child: Image.asset(
-                            "assets/images/arsenal.png",
+                        child: Image.network(
+                            awayteamlogoUrl,
                             height: 33,
                             width: 33
                         ),
                       ),
                       Text(
-                        "Arsenal",
+                        awayteam,
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 17,
@@ -98,146 +115,7 @@ class PremierLeague extends StatelessWidget {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 15),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "16:00",
-                  style: TextStyle(
-                    color: Colors.white38,
-                    fontSize: 17,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                Container(
-                  child: Row(
-                    children: [
-                      Text(
-                        "Liverpool",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 17,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(left: 5, right: 5, ),
-                        child: Image.asset(
-                            "assets/images/liverpool.png",
-                            height: 45,
-                            width: 45
-                        ),
-                      ),
-                      Text(
-                        " - ",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 17,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(left: 5, right: 5),
-                        child: Image.asset(
-                            "assets/images/chelsea.png",
-                            height: 40,
-                            width: 40
-                        ),
-                      ),
-                      Text(
-                        "Chelsea",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 17,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Icon(
-                  Icons.notifications,
-                  size: 26,
-                  color: Colors.amber,
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 25),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      "19:30",
-                      style: TextStyle(
-                        color: Colors.white38,
-                        fontSize: 17,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
-                ),
-                Container(
-                  child: Row(
-                    children: [
-                      Text(
-                        "Man Utd",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 17,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(left: 5, right: 5, ),
-                        child: Image.asset(
-                          "assets/images/manutd_logo.png",
-                          height: 38,
-                          width: 38,
-                        ),
-                      ),
-                      Text(
-                        " - ",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 17,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(left: 5, right: 5),
-                        child: Image.asset(
-                          "assets/images/mancity_logo.png",
-                          height: 38,
-                          width: 38,
-                        ),
-                      ),
-                      Text(
-                        "Man City",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 17,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Icon(
-                  Icons.notifications_none_rounded,
-                  size: 26,
-                  color: Colors.white60,
-                ),
-              ],
-            ),
-          ),
+         
         ],
       ),
     );

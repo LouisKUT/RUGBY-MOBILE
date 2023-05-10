@@ -81,7 +81,7 @@ class _MainScreenState extends State<MainScreen> {
                       height: 40,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(50),
-                        color: Colors.blue,
+                        color: Color.fromARGB(255, 50, 89, 121),
                       ),
                       child: Center(
                           child: Text(
@@ -94,62 +94,7 @@ class _MainScreenState extends State<MainScreen> {
                       )),
                     ),
                   )),
-                  Tab(
-                      child: GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      width: 200,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        color: Colors.blue,
-                      ),
-                      child: Center(
-                          child: Text(
-                        'League 1',
-                        style: TextStyle(
-                          fontSize: 15.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      )),
-                    ),
-                  )),
-                  Tab(
-                      child: GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      width: 200,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        color: Colors.blue,
-                      ),
-                      child: Center(
-                          child: Text(
-                        'League 2',
-                        style: TextStyle(
-                          fontSize: 15.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      )),
-                    ),
-                  )),
-//                Tab(child:  GestureDetector(
-//   onTap: () {},
-//   child: Container(
-//     width: 200,
-//     height: 50,
-//     decoration: BoxDecoration(
-//       borderRadius: BorderRadius.circular(50),
-//       color: Colors.greenAccent,
-//     ),
-//     child: Center(child: Text('GestureDetector Button')),
-//   ),
-// )),
-                  //Tab(icon: Icon(Icons.face), text: 'Profile'),
-                  //Tab(icon: Icon(Icons.settings), text: 'Settings'),
+               
                 ],
               ),
               elevation: 20,

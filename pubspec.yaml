@@ -38,6 +38,7 @@ dependencies:
   youtube_player_flutter: ^8.1.2
   youtube_data_api: ^1.0.4
   flutter_dotenv: ^5.0.2
+  carousel_slider: ^4.2.1
 
 dev_dependencies:
   flutter_test:

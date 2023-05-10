@@ -1,6 +1,24 @@
 import 'package:flutter/material.dart';
 
 class LaLiga extends StatelessWidget {
+  //LaLiga(String hometeam, DateTime awayteam, String hometeamlogoUrl, String awayteamlogoUrl, DateTime matchtime);
+
+  final hometeam;
+  
+  var awayteam;
+  
+  var hometeamlogoUrl;
+  
+  var awayteamlogoUrl;
+  
+  var matchtime;
+
+  //const PremierLeague(String hometeam, DateTime awayteam, String hometeamlogoUrl, String awayteamlogoUrl, DateTime matchtime);
+   LaLiga({super.key, required this.hometeam,required this.awayteam,required this.hometeamlogoUrl,required this.awayteamlogoUrl,
+   required this.matchtime
+   });
+
+
   @override
   Widget build(BuildContext context) {
     return Container(

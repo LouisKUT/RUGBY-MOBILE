@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "250521316204",
+    "project_id": "rugbymobile",
+    "storage_bucket": "rugbymobile.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:250521316204:android:a627a2a3c2da17bc58a149",
+        "android_client_info": {
+          "package_name": "com.example.rugby_mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "250521316204-7210kk8bmdi3kmoc0f2j5fl70j2sd8ht.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGpnAsAhU-MVpk2VZbKmXvF3jHnt_Ywdk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "250521316204-7210kk8bmdi3kmoc0f2j5fl70j2sd8ht.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
