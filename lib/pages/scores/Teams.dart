@@ -10,14 +10,14 @@ import 'package:rugby_mobile/pages/api/TeamData.dart';
 import 'package:rugby_mobile/pages/api/remoteservices.dart';
 //import 'package:rugby_mobile/pages/api/remoteservices.dart';
 
-class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+class TeamsScreen extends StatefulWidget {
+  const TeamsScreen({Key? key}) : super(key: key);
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
+  State<TeamsScreen> createState() => _TeamsScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _TeamsScreenState extends State<TeamsScreen> {
 // String url = "Your_URL";
 
 //    Future<List<Fruit>> fetchFruit() async {
@@ -31,237 +31,183 @@ class _MainScreenState extends State<MainScreen> {
 
   }
 
-
+final List<String> buttonTexts = [
+    'Scores',
+    'Tables',
+    'All Teams',
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-        length: 3,
-        child: Scaffold(
-            appBar: AppBar(
-              title: Text('RUGBY MOBILE'),
-              //centerTitle: true,
-              leading: IconButton(
-                icon: Icon(Icons.menu),
-                onPressed: () {},
-              ),
-              actions: [
-                IconButton(
-                  icon: Icon(Icons.notifications_none),
-                  onPressed: () {},
-                ),
-                IconButton(
-                  icon: Icon(Icons.search),
-                  onPressed: () {},
-                )
-              ],
-              //backgroundColor: Colors.purple,
-              flexibleSpace: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Color.fromARGB(255, 5, 38, 66),
-                      Color.fromARGB(255, 2, 46, 85)
-                    ],
-                    begin: Alignment.bottomRight,
-                    end: Alignment.topLeft,
-                  ),
-                ),
-              ),
-              bottom: TabBar(
-                //isScrollable: true,
-                indicatorColor: Colors.white,
-                indicatorWeight: 5,
-                tabs: [
-                  Tab(
-                      child: GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      width: 200,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        color: Color.fromARGB(255, 50, 89, 121),
-                      ),
-                      child: Center(
-                          child: Text(
-                        'Top Stories',
-                        style: TextStyle(
-                          fontSize: 15.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      )),
+    return FutureBuilder<Post>(
+          future: RemoteService().getTeamsData(),
+          builder: (context, snapshot) {
+            final results = snapshot.data;
+            print("Teams results: "+results.toString());
+            if (snapshot.hasData) {
+              return 
+                GridView.builder(
+                  padding: const EdgeInsets.all(15),
+                  itemCount: snapshot.data!.data.teams.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 1
+                      ,
+                      childAspectRatio: 2.5,
+                      crossAxisSpacing: 5.0,
+                      mainAxisSpacing: 12.0,
+                      
                     ),
-                  )),
-               
-                ],
-              ),
-              elevation: 20,
-              titleSpacing: 20,
-            ),
-            body: FutureBuilder<Post>(
-              future: RemoteService().getTeamsData(),
-              builder: (context, snapshot) {
-                final results = snapshot.data;
-                print("Teams results: "+results.toString());
-                if (snapshot.hasData) {
-                  return 
-                    GridView.builder(
-                      padding: const EdgeInsets.all(15),
-                      itemCount: snapshot.data!.data.teams.length,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 1
-                          ,
-                          childAspectRatio: 2.5,
-                          crossAxisSpacing: 5.0,
-                          mainAxisSpacing: 12.0,
-                          
+                    
+                    itemBuilder: (BuildContext context, int index) { 
+                      final team =results!.data.teams[index];
+                      //File pic =team.rtTeamLogoUrl as File;
+                     // final picurl = team.rtTeamLogoUrl.toString();
+                      const url = "http://rugby.sportsinfoug.com/images/media/teams/teamlogo/defualut-Team-logo.png";
+                     // http://rugby.sportsinfoug.com/images/media/teams/teamlogo/defualut-Team-logo.png
+                      
+                      return Container(
+                         
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(15)),
+                          gradient: LinearGradient(
+      begin: Alignment.centerLeft,
+      end: Alignment.centerRight,
+      colors: [Color.fromARGB(255, 52, 59, 65), Color.fromARGB(255, 2, 46, 85)],
+    ),
+                          color: Color.fromARGB(255, 2, 46, 85),
+                          // border: Border(
+                            
+                          //   right: BorderSide(
+                          //     color: Colors.black,
+                          //     width: 1.0,
+                          //   ),
+                          // ),
                         ),
-                        
-                        itemBuilder: (BuildContext context, int index) { 
-                          final team =results!.data.teams[index];
-                          //File pic =team.rtTeamLogoUrl as File;
-                          final picurl = team.rtTeamLogoUrl.toString();
-                          final url = 'http://'+picurl;
-                          final urlget = 
-                          Uri.parse(url);
-                          return Container(
-                             
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(15)),
-                              color: Color.fromARGB(255, 2, 46, 85),
-                              // border: Border(
-                                
-                              //   right: BorderSide(
-                              //     color: Colors.black,
-                              //     width: 1.0,
-                              //   ),
-                              // ),
-                            ),
-                                  child: Row(
-                     crossAxisAlignment: CrossAxisAlignment.start,
-                  
-                  
-                     children: [
-                                Expanded(
-                                  child: Padding(
-                     padding: const EdgeInsets.all(8.0),
-                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        
-                        SizedBox(height: 5.0),
-                        Text(
-                          team.rtName,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 10.0,
-                          ),
-                        ),
+                              child: Row(
+                 crossAxisAlignment: CrossAxisAlignment.start,
+              
+              
+                 children: [
+                            Expanded(
+                              child: Padding(
+                 padding: const EdgeInsets.all(8.0),
+                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    
                     SizedBox(height: 5.0),
-                        Image.network(
-                          url,
-                          height: 50.0,
-                          width: 50.0,
-                          fit: BoxFit.contain,
-                        ),
-                       // Image.file(pic),
-                       // Image.memory(team.rtTeamLogoUrl).image;
-                       
-                      ],
+                    Text(
+                      team.rtName,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 10.0,
+                      ),
                     ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Text(
-                        //   'Social Media Handles:',
-                        //   style: TextStyle(
-                        //     color: Colors.white,
-                        //     fontWeight: FontWeight.bold,
-                        //     fontSize: 14.0,
-                        //   ),
-                        // ),
-                        // SizedBox(height: 8.0),
-                        Text(
-                          team.rtAbbr,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 10.0,
-                          ),
-                        ),
-                        SizedBox(height: 5.0),
-                        Text(
-                          'Email:',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14.0,
-                          ),
-                        ),
-                        SizedBox(height: 5.0),
-                        Text(
-                          team.rtEmail,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 10.0,
-                          ),
-                        ),
-                        SizedBox(height: 5.0),
-                        Text(
-                          'Since:',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 10.0,
-                          ),
-                        ),
-                        SizedBox(height: 5.0),
-                        Text(
-                          team.rtDateCreated.toString(),
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14.0,
-                          ),
-                        ),
-                      ],
+                SizedBox(height: 5.0),
+                    Image.network(
+                      //http://rugby.sportsinfoug.com/images/media/teams/teamlogo/defualut-Team-logo.png
+                      url,
+                      
+                      height: 50.0,
+                      width: 50.0,
+                      fit: BoxFit.contain,
                     ),
-                                  ),
-                                ),
-                              ],
-                                   
-                  
-                  
-                    // children: List.generate(
-                    //         results.data.rugbyteams.length,
-                    //         (index) => Text(
-                    //             results.data.rugbyteams[index].facebookUrl))
-                                
-                                ), ); 
-                        }
-                  );
-                } 
-                else if (snapshot.hasError) {
-                  return Text('${snapshot.error}');
-                }
+                   // Image.file(pic),
+                   // Image.memory(team.rtTeamLogoUrl).image;
+                   
+                  ],
+                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Text(
+                    //   'Social Media Handles:',
+                    //   style: TextStyle(
+                    //     color: Colors.white,
+                    //     fontWeight: FontWeight.bold,
+                    //     fontSize: 14.0,
+                    //   ),
+                    // ),
+                    // SizedBox(height: 8.0),
+                    Text(
+                      team.rtAbbr,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 10.0,
+                      ),
+                    ),
+                    SizedBox(height: 5.0),
+                    Text(
+                      'Email:',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14.0,
+                      ),
+                    ),
+                    SizedBox(height: 5.0),
+                    Text(
+                      team.districtId,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 10.0,
+                      ),
+                    ),
+                    SizedBox(height: 5.0),
+                    Text(
+                      'Since:',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 10.0,
+                      ),
+                    ),
+                    SizedBox(height: 5.0),
+                    Text(
+                      team.rtAbbr,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14.0,
+                      ),
+                    ),
+                  ],
+                ),
+                              ),
+                            ),
+                          ],
+                               
+              
+              
+                // children: List.generate(
+                //         results.data.rugbyteams.length,
+                //         (index) => Text(
+                //             results.data.rugbyteams[index].facebookUrl))
+                            
+                            ), ); 
+                    }
+              );
+            } 
+            else if (snapshot.hasError) {
+              return Text('${snapshot.error}');
+            }
 
-                // By default, show a loading spinner.
-                return const Center(child: CircularProgressIndicator());
-              },
-            )
+            // By default, show a loading spinner.
+            return const Center(child: CircularProgressIndicator());
+          },
+        );
 
-            //  ListView.builder(
-            //     itemCount: Teams?.length,
-            //     itemBuilder: (context, index) {
-            //       return Text(Teams![index].data.rugbyteams[index].rtName);
-            //     }),
-            ));
+        //  ListView.builder(
+        //     itemCount: Teams?.length,
+        //     itemBuilder: (context, index) {
+        //       return Text(Teams![index].data.rugbyteams[index].rtName);
+        //     }),
+        
   }
 
   Widget setPage() {

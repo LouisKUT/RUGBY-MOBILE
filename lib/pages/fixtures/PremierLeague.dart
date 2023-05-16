@@ -1,20 +1,31 @@
 import 'package:flutter/material.dart';
-class PremierLeague extends StatelessWidget {
-  var todo;
+
+class PremierLeague extends StatefulWidget {
   final hometeam;
-  
+
   var awayteam;
-  
+
   var hometeamlogoUrl;
-  
+
   var awayteamlogoUrl;
-  
+
   var matchtime;
 
   //const PremierLeague(String hometeam, DateTime awayteam, String hometeamlogoUrl, String awayteamlogoUrl, DateTime matchtime);
-   PremierLeague({super.key, required this.hometeam,required this.awayteam,required this.hometeamlogoUrl,required this.awayteamlogoUrl,
-   required this.matchtime
-   });
+  PremierLeague(
+      {super.key,
+      required this.hometeam,
+      required this.awayteam,
+      required this.hometeamlogoUrl,
+      required this.awayteamlogoUrl,
+      required this.matchtime});
+
+  @override
+  State<PremierLeague> createState() => _PremierLeagueState();
+}
+
+class _PremierLeagueState extends State<PremierLeague> {
+  var todo;
 
   @override
   Widget build(BuildContext context) {
@@ -47,12 +58,12 @@ class PremierLeague extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("12:00",
-                   //matchtime.toString(),
+                    Text(
+                      "12:00",
+                      //matchtime.toString(),
                       style: TextStyle(
                         color: Colors.amber,
                         fontSize: 17,
@@ -65,7 +76,7 @@ class PremierLeague extends StatelessWidget {
                   child: Row(
                     children: [
                       Text(
-                        hometeam,
+                        widget.hometeam,
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 17,
@@ -73,12 +84,12 @@ class PremierLeague extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        padding: EdgeInsets.only(left: 5, right: 5, ),
-                        child: Image.network(
-                            hometeamlogoUrl,
-                            height: 38,
-                            width: 38
+                        padding: EdgeInsets.only(
+                          left: 5,
+                          right: 5,
                         ),
+                        child: Image.network(widget.hometeamlogoUrl,
+                            height: 38, width: 38),
                       ),
                       Text(
                         " 0:1 ",
@@ -90,14 +101,11 @@ class PremierLeague extends StatelessWidget {
                       ),
                       Container(
                         padding: EdgeInsets.only(left: 5, right: 5),
-                        child: Image.network(
-                            awayteamlogoUrl,
-                            height: 33,
-                            width: 33
-                        ),
+                        child: Image.network(widget.awayteamlogoUrl,
+                            height: 33, width: 33),
                       ),
                       Text(
-                        awayteam,
+                        widget.awayteam,
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 17,
@@ -115,7 +123,6 @@ class PremierLeague extends StatelessWidget {
               ],
             ),
           ),
-         
         ],
       ),
     );
