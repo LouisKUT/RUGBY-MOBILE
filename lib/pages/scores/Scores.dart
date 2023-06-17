@@ -3,6 +3,8 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:rugby_mobile/pages/scores/Teams.dart';
+import 'package:rugby_mobile/pages/scores/predictions.dart';
+import 'package:rugby_mobile/pages/scores/scoresdata.dart';
 import 'package:rugby_mobile/pages/tables/HomeScreen.dart';
 import 'package:rugby_mobile/pages/tables/TableScreen.dart';
 class Scores extends StatefulWidget {
@@ -21,8 +23,8 @@ class _ScoresState extends State<Scores> {
   List<Widget> _widgetOptions = <Widget>[
     
      
-     const TeamsScreen(),
-      const TeamsScreen(),
+      RugbyMatchPredictionsPage(),
+       RugbyScoresPage(),
        TableScreen(code:"PL"),
        const TeamsScreen(),
    // Videos(),
@@ -138,21 +140,21 @@ class _ScoresState extends State<Scores> {
                       
                     },
                     child: const Text(
-                      'Live',
-                      style: TextStyle(color: Colors.white,fontSize:20),
+                      'Predictions',
+                      style: TextStyle(color: Colors.white,fontSize:18),
                     ),
                   ),
-                  const SizedBox(width: 16.0),
+                  const SizedBox(width: 12.0),
                   TextButton(
                     onPressed: () {
                     _onItemTapped(1);
                     },
                     child: const Text(
                       'Scores',
-                      style: TextStyle(color: Colors.white,fontSize:20),
+                      style: TextStyle(color: Colors.white,fontSize:18),
                     ),
                   ),
-                  const SizedBox(width: 16.0),
+                  const SizedBox(width: 12.0),
                   TextButton(
                     onPressed: () {
                       _onItemTapped(2);
@@ -162,17 +164,17 @@ class _ScoresState extends State<Scores> {
                     },
                     child: const Text(
                       'Tables',
-                      style: TextStyle(color: Colors.white,fontSize:20),
+                      style: TextStyle(color: Colors.white,fontSize:18),
                     ),
                   ),
-                  const SizedBox(width: 16.0),
+                  const SizedBox(width: 12.0),
                   TextButton(
                     onPressed: () {
                       _onItemTapped(3);
                     },
                     child: const Text(
                       'Teams',
-                      style: TextStyle(color: Colors.white,fontSize:20),
+                      style: TextStyle(color: Colors.white,fontSize:18),
                     ),
                   ),
                 ],
