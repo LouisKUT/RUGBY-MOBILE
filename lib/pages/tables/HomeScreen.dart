@@ -54,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => TableScreen(code: 'PL'),
+                              builder: (context) => LeagueTablePage(),
                             ));
                       },
                     ),
@@ -64,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => TableScreen(code: 'PD'),
+                              builder: (context) => LeagueTablePage(),
                             ));
                       },
                     ),
@@ -74,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => TableScreen(code: 'BL1'),
+                              builder: (context) => LeagueTablePage(),
                             ));
                       },
                     ),
@@ -84,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => TableScreen(code: 'SA'),
+                              builder: (context) => LeagueTablePage(),
                             ));
                       },
                     ),
@@ -94,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => TableScreen(code: 'FL1'),
+                              builder: (context) => LeagueTablePage(),
                             ));
                       },
                     ),
@@ -104,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => TableScreen(code: 'PPL'),
+                              builder: (context) => LeagueTablePage(),
                             ));
                       },
                     ),

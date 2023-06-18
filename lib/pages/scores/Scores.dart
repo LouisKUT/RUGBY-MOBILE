@@ -25,7 +25,7 @@ class _ScoresState extends State<Scores> {
      
       RugbyMatchPredictionsPage(),
        RugbyScoresPage(),
-       TableScreen(code:"PL"),
+       LeagueTablePage(),
        const TeamsScreen(),
    // Videos(),
    //Playlists(),

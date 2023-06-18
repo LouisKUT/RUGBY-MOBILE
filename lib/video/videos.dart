@@ -1,199 +1,126 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-//import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:rugby_mobile/video/playlist.dart';
-import 'package:rugby_mobile/video/video.dart';
-import 'package:rugby_mobile/video/youtube-video-row.dart';
-import 'package:youtube_data_api/models/channel.dart';
-import 'package:youtube_data_api/models/playlist.dart';
-//import 'package:youtube_data_api/models/video.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-import 'package:youtube_data_api/youtube_data_api.dart';
 
-//import 'package:flutter_dotenv/flutter_dotenv.dart' as dot_env;
-import 'package:http/http.dart' as http;
-import 'dart:convert' as convert;
+class SportsVideo {
+  final String title;
+  final String videoId;
+  final String duration;
 
-class Videos extends StatefulWidget {
- final Playlist playlist;
-
-  Videos({
-    Key? key,
-    required this.playlist,
-  }):super(key: key);
-
-  @override
-  State<Videos> createState() => _VideosState();
+  SportsVideo({
+    required this.title,
+    required this.videoId,
+    required this.duration,
+  });
 }
 
-class _VideosState extends State<Videos> {
+class SportsVideosPage extends StatefulWidget {
+  @override
+  _SportsVideosPageState createState() => _SportsVideosPageState();
+}
 
+class _SportsVideosPageState extends State<SportsVideosPage> {
+  final List<SportsVideo> videos = [
+    SportsVideo(
+      title: 'Rugby Highlights 1',
+      videoId: 'video_id_1',
+      duration: '10:23',
+    ),
+    SportsVideo(
+      title: 'Rugby Highlights 2',
+      videoId: 'video_id_2',
+      duration: '8:45',
+    ),
+    SportsVideo(
+      title: 'Rugby Match Analysis',
+      videoId: 'video_id_3',
+      duration: '12:01',
+    ),
+    SportsVideo(
+      title: 'Rugby Moments',
+      videoId: 'video_id_4',
+      duration: '9:57',
+    ),
+    SportsVideo(
+      title: 'Rugby Tackling Techniques',
+      videoId: 'video_id_5',
+      duration: '7:32',
+    ),
+    SportsVideo(
+      title: 'Rugby Try Compilation',
+      videoId: 'video_id_6',
+      duration: '11:48',
+    ),
+    SportsVideo(
+      title: 'Rugby Training Drills',
+      videoId: 'video_id_7',
+      duration: '13:15',
+    ),
+    SportsVideo(
+      title: 'Rugby Championship Highlights',
+      videoId: 'video_id_8',
+      duration: '15:27',
+    ),
+  ];
 
-  List<Video> videos = [];
+  late String selectedVideoId;
 
   @override
   void initState() {
     super.initState();
-
-    fetchVideos();
+    selectedVideoId = videos[0].videoId; // Select the first video by default
   }
-Future<void> fetchVideos() async {
-  String url = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&key=API_KEY&maxResults=50&playlistId=${widget.playlist.id}';
 
-  var response = await http.get(Uri.parse(url));
-  if (response.statusCode == 200) {
-    var jsonResponse = convert.jsonDecode(response.body);
-    setState(() {
-      videos = jsonResponse['items'].map<Video>((item) {
-        return Video.fromJson(item);
-      }).toList();
-    });
-  } else {
-    print('I should handle this error better: ${response.statusCode}.');
-  }
-}
-  
-  final List<String> buttonTexts = [
-    'New Videos',
-    'Previous Match',
-    'Live Stream',
-    'Replay Videos',
-    'Trainings',
-  ];
   @override
   Widget build(BuildContext context) {
-   
-      return Scaffold(
-        appBar: AppBar(
-          
-          backgroundColor: Color.fromARGB(255, 2, 46, 85),
-          title: Text('Videos'),
-          bottom: PreferredSize(
-            preferredSize: Size.fromHeight(48.0),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: buttonTexts
-                    .map(
-                      (text) => Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8.0),
-                        child: TextButton(
-                          onPressed: () {},
-                          child: Text(text,style: TextStyle(
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),),
-                        ),
-                      ),
-                    )
-                    .toList(),
-              )
-            ))),
-           body: 
-            SafeArea(
-      child: ListView.separated(
-          separatorBuilder: (BuildContext context, int index) {
-            return SizedBox(height: 50);
-          },
-          itemCount: videos.length,
-          itemBuilder: (context, index) {
-            return YouTubeVideoRow(video: videos[index], key: null,);
-          }
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Rugby Videos'),
       ),
-    ),
-           //player
-      
+      body: Column(
+        children: [
+          Expanded(
+            flex: 2,
+            child: YoutubePlayer(
+              controller: YoutubePlayerController(
+                initialVideoId: selectedVideoId,
+                flags: YoutubePlayerFlags(
+                  autoPlay: true,
+                  mute: false,
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 3,
+            child: ListView.builder(
+              itemCount: videos.length,
+              itemBuilder: (context, index) {
+                final video = videos[index];
+                return ListTile(
+                  leading: Icon(Icons.play_circle_outline),
+                  title: Text(video.title),
+                  subtitle: Text(video.duration),
+                  onTap: () {
+                    setState(() {
+                      selectedVideoId = video.videoId;
+                    });
+                  },
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          setState(() {
+            selectedVideoId = '';
+          });
+        },
+        label: Text('Clear Selection'),
+        icon: Icon(Icons.clear),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
-
-
-// Column(
-//         children: [
-//           Padding(
-//             padding: const EdgeInsets.all(8.0),
-//             child: Text("This example retrieves all the videos in a playlist by id"),
-//           ),
-//           Expanded(
-//             child: Container(
-//               child: ListView.builder(
-//           itemCount: YoutubeVideos.length,
-//           itemBuilder: ( context, int index) {
-//            final video1 =YoutubeVideos[index];
-           
-//             return Card(
-//       child: Container(
-//         margin: EdgeInsets.symmetric(vertical: 7.0),
-//         padding: EdgeInsets.all(12.0),
-//         child: Row(
-//           children: <Widget>[
-//             Image.network(
-//               YoutubeVideos[index].thumbnail['default']['url'],
-//             ),
-//             Padding(padding: EdgeInsets.only(right: 20.0)),
-//             Expanded(
-//                 child: Column(
-//                     mainAxisAlignment: MainAxisAlignment.start,
-//                     crossAxisAlignment: CrossAxisAlignment.start,
-//                     children: <Widget>[
-//                       Text(
-//                         YoutubeVideos[index].title,
-//                         softWrap: true,
-//                         style: TextStyle(fontSize: 18.0),
-//                       ),
-//                       Padding(padding: EdgeInsets.only(bottom: 1.5)),
-//                       Text(
-//                         YoutubeVideos[index].channelTitle,
-//                         softWrap: true,
-//                       ),
-//                       Padding(padding: EdgeInsets.only(bottom: 3.0)),
-//                       Text(
-//                         YoutubeVideos[index].url,
-//                         softWrap: true,
-//                       ),
-//                     ]))
-//           ],
-//         ),
-//       ),
-//     );
-            
-//           }),
-//             ),
-//           ),
-//           Row(
-//             mainAxisAlignment: MainAxisAlignment.spaceAround,
-//             children: [
-//               RaisedButton(
-//                   child: Text("<< Prev page",
-//                     style: TextStyle(
-//                         color: Colors.white
-//                     ),
-//                   ),
-//                   color: Colors.blue,
-//                   onPressed: () async{
-//                    // ytResult = await ytApi.prevPage();
-//                     // if(ytResult != null) {
-//                     //   setState(() {});
-//                     // }
-//                   }
-//               ),
-//               RaisedButton(
-//                   child: Text("Next page >>",
-//                     style: TextStyle(
-//                         color: Colors.white
-//                     ),
-//                   ),
-//                   color: Colors.blue,
-//                   onPressed: () async{
-//                     // ytResult = await ytApi.nextPage();
-//                     // if(ytResult != null) {
-//                     //   setState(() {});
-//                     // }
-//                   }
-//               ),
-//             ],
-//           )
-//         ],
-//       ),

@@ -90,12 +90,12 @@ final List<String> buttonTexts = [
                  children: [
                             Expanded(
                               child: Padding(
-                 padding: const EdgeInsets.all(8.0),
+                 padding: const EdgeInsets.all(10.0),
                  child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     
-                    SizedBox(height: 5.0),
+                    SizedBox(height: 0.0),
                     Text(
                       team.rtName,
                       style: TextStyle(
@@ -104,15 +104,26 @@ final List<String> buttonTexts = [
                         fontSize: 10.0,
                       ),
                     ),
-                SizedBox(height: 5.0),
-                    Image.network(
-                      //http://rugby.sportsinfoug.com/images/media/teams/teamlogo/defualut-Team-logo.png
-                      url,
+                SizedBox(height: 0.0),
+                Padding(
+  padding: EdgeInsets.all(14.0), // Adjust the value as per your requirement
+  child: Image.asset('assets/images/logocrop.png',
+                  height: 50,
+                  width: 50.0,
+                  //scale: 2.5,
+                  // color: Color.fromARGB(255, 15, 147, 59),
+                  opacity:
+                      const AlwaysStoppedAnimation<double>(0.5)),
+),
+                
+                    // Image.network(
+                    //   //http://rugby.sportsinfoug.com/images/media/teams/teamlogo/defualut-Team-logo.png
+                    //   url,
                       
-                      height: 50.0,
-                      width: 50.0,
-                      fit: BoxFit.contain,
-                    ),
+                    //   height: 50.0,
+                    //   width: 50.0,
+                    //   fit: BoxFit.contain,
+                    // ),
                    // Image.file(pic),
                    // Image.memory(team.rtTeamLogoUrl).image;
                    

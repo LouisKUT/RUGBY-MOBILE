@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:rugby_mobile/homepage/MainScreen.dart';
 import 'package:rugby_mobile/pages/scores/Scores.dart';
 import 'package:rugby_mobile/pages/fixtures/fixtures.dart';
-import 'package:rugby_mobile/pages/playlists.dart';
 import 'package:rugby_mobile/video/videos.dart';
 
 
@@ -17,7 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
     MainScreen(),
     const FixtureScreen(),
    // Videos(),
-   Playlists(),
+   SportsVideosPage(),
     Scores(),
   ];
 

@@ -1,245 +1,124 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:http/http.dart' as http;
 
-class TableScreen extends StatefulWidget {
-   String code;
-
-   TableScreen({Key? key, required this.code}) : super(key: key);
-  @override
-  _TableScreenState createState() => _TableScreenState();
-}
-
-class _TableScreenState extends State<TableScreen> {
-  late List _table;
-bool showButtonRow = true;
-  getTable() async {
-    http.Response response = await http.get(Uri.parse('http://api.football-data.org/v2/competitions/${widget.code}/standings')
-        ,
-        headers: {'X-Auth-Token': '86014f6025ae430dba078acc94bb2647'});
-    String body = response.body;
-    Map data = jsonDecode(body);
-    List table = data['standings'][0]['table'];
-    setState(() {
-      _table = table;
-    });
-  }
-
-  Widget buildTable() {
-    List<Widget> teams = [];
-    for (var team in _table) {
-      teams.add(
-        Padding(
-          padding: const EdgeInsets.all(10),
-          child: Row(
-            children: [
-              Expanded(
-                child: Row(
-                  children: [
-                    team['position'].toString().length > 1
-                        ? Text(team['position'].toString() + ' - ')
-                        : Text(" " + team['position'].toString() + ' - '),
-                    Row(
-                      children: [
-                        SvgPicture.network(
-                          team['team']['crestUrl'],
-                          height: 30,
-                          width: 30,
-                        ),
-                        team['team']['name'].toString().length > 11
-                            ? Text(team['team']['name']
-                                    .toString()
-                                    .substring(0, 11) +
-                                '...')
-                            : Text(team['team']['name'].toString()),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(team['playedGames'].toString()),
-                    Text(team['won'].toString()),
-                    Text(team['draw'].toString()),
-                    Text(team['lost'].toString()),
-                    Text(team['goalDifference'].toString()),
-                    Text(team['points'].toString()),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
-    return Column(
-      children: teams,
-    );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    getTable();
-  }
+class LeagueTablePage extends StatelessWidget {
+  final List<Map<String, dynamic>> teams = [
+    {'name': 'Buffaloes', 'played': 10, 'won': 7, 'drawn': 2, 'lost': 1, 'points': 23},
+    {'name': 'Hippos', 'played': 10, 'won': 6, 'drawn': 2, 'lost': 2, 'points': 20},
+    {'name': 'Mongers', 'played': 10, 'won': 5, 'drawn': 3, 'lost': 2, 'points': 18},
+    {'name': 'Heathens', 'played': 10, 'won': 4, 'drawn': 4, 'lost': 2, 'points': 16},
+    {'name': 'Warriors', 'played': 10, 'won': 4, 'drawn': 3, 'lost': 3, 'points': 15},
+    {'name': 'Pirates', 'played': 10, 'won': 4, 'drawn': 2, 'lost': 4, 'points': 14},
+    {'name': 'Impis', 'played': 10, 'won': 3, 'drawn': 4, 'lost': 3, 'points': 13},
+    {'name': 'Kobs', 'played': 10, 'won': 3, 'drawn': 3, 'lost': 4, 'points': 12},
+    {'name': 'Rhinos', 'played': 10, 'won': 2, 'drawn': 5, 'lost': 3, 'points': 11},
+    {'name': 'Intangas', 'played': 10, 'won': 2, 'drawn': 4, 'lost': 4, 'points': 10},
+    {'name': 'Rams', 'played': 10, 'won': 2, 'drawn': 3, 'lost': 5, 'points': 9},
+    {'name': 'Rams 2', 'played': 10, 'won': 1, 'drawn': 4, 'lost': 5, 'points': 7},
+    {'name': 'Boks', 'played': 10, 'won': 1, 'drawn': 3, 'lost': 6, 'points': 6},
+    {'name': 'Saliors', 'played': 10, 'won': 1, 'drawn': 2, 'lost': 7, 'points': 5},
+    {'name': 'Walukuba', 'played': 10, 'won': 0, 'drawn': 4, 'lost': 6, 'points': 4},
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return _table == null
-        ? Container(
-            color: Colors.white,
-            child: Center(
-              child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  Color(0xFFe70066),
-                ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('League Table'),
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Colors.blue[200]!, Colors.blue[800]!],
+          ),
+        ),
+        child: ListView(
+          children: [
+            DataTable(
+              headingTextStyle: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
               ),
+              dataTextStyle: TextStyle(color: Colors.white),
+              columnSpacing: 16.0,
+              columns: [
+                DataColumn(
+                  label: Text('Pos'),
+                  numeric: true,
+                ),
+                DataColumn(
+                  label: Text('Team'),
+                  numeric: false,
+                ),
+                DataColumn(
+                  label: Text('P'),
+                  numeric: true,
+                ),
+                DataColumn(
+                  label: Text('W'),
+                  numeric: true,
+                ),
+                DataColumn(
+                  label: Text('D'),
+                  numeric: true,
+                ),
+                DataColumn(
+                  label: Text('L'),
+                  numeric: true,
+                ),
+                DataColumn(
+                  label: Text('Pts'),
+                  numeric: true,
+                ),
+              ],
+              rows: teams
+                  .asMap()
+                  .map(
+                    (index, team) => MapEntry(
+                      index,
+                      DataRow(
+                        cells: [
+                          DataCell(
+                            Text(
+                              (index + 1).toString(),
+                            ),
+                          ),
+                          DataCell(
+                            Text(
+                              team['name'],
+                            ),
+                          ),
+                          DataCell(
+                            Text(team['played'].toString()),
+                          ),
+                          DataCell(
+                            Text(team['won'].toString()),
+                          ),
+                          DataCell(
+                            Text(team['drawn'].toString()),
+                          ),
+                          DataCell(
+                            Text(team['lost'].toString()),
+                          ),
+                          DataCell(
+                            Text(
+                              team['points'].toString(),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                  .values
+                  .toList(),
             ),
-          )
-       : CustomScrollView(
-                slivers: [
-                  SliverAppBar(
-                    backgroundColor: Colors.transparent,
-                    pinned: true,
-                    flexibleSpace: showButtonRow
-                        ? Container(
-                            height: 56.0,
-                            color: Colors.grey[200],
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                ElevatedButton(
-                                  onPressed: () {
-                                    setState(() {
-       widget.code = "PL";
-       getTable();
-       buildTable();
-    });
-                                  },
-                                  child: Text('Button 1'),
-                                ),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    setState(() {
-       widget.code = "PL";
-       getTable();
-       buildTable();
-    });
-                                  },
-                                  child: Text('Button 2'),
-                                ),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    setState(() {
-      //_table = table;
-       widget.code = "PL";
-       getTable();
-       buildTable();
-    });
-                                    // Perform action
-                                  },
-                                  child: Text('Button 3'),
-                                ),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    setState(() {
-      widget.code = "PL";
-      getTable();
-      buildTable();
-    });
-                                  },
-                                  child: Text('Button 4'),
-                                ),
-                              ],
-                            ),
-                          )
-                        : null,
-                  ),
-                  SliverList(
-                    delegate: SliverChildListDelegate([
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 5),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  Text(
-                                    'Pos',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  SizedBox(
-                                    width: 20,
-                                  ),
-                                  Text(
-                                    'Club',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'PL',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    'W',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    'D',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    'L',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    'GD',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    'Pts',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      buildTable(),
-                    ]),
-                  ),
-                ],
-              );
-      
-            
-          
+          ],
+        ),
+      ),
+    );
   }
 }

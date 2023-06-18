@@ -1,59 +1,63 @@
 import 'package:flutter/material.dart';
-import 'package:rugby_mobile/video/video.dart';
-//import 'package:youtube_data_api/models/video.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-class YouTubeVideoRow extends StatefulWidget {
-   final Video video;
-  const YouTubeVideoRow({
-    Key? key,
-    required this.video
-  }) : super(key: key);
-  @override
-  _YouTubeVideoRowState createState() => _YouTubeVideoRowState();
+class SportsVideo {
+  final String title;
+  final String thumbnailUrl;
+  final String duration;
+
+  SportsVideo({
+    required this.title,
+    required this.thumbnailUrl,
+    required this.duration,
+  });
 }
 
-class _YouTubeVideoRowState extends State<YouTubeVideoRow> {
-
-@override
-void initState() {
-  super.initState();
-
-  _controller = YoutubePlayerController(
-    initialVideoId: widget.video.id,
-    flags: YoutubePlayerFlags(
-      autoPlay: false,
-      mute: false,
+class SportsVideosPage extends StatelessWidget {
+  final List<SportsVideo> videos = [
+    SportsVideo(
+      title: 'Amazing Soccer Goals',
+      thumbnailUrl: 'https://example.com/thumbnail1.jpg',
+      duration: '10:23',
     ),
-  );
-}
-late YoutubePlayerController _controller;
-  
-  
+    SportsVideo(
+      title: 'Basketball Highlights',
+      thumbnailUrl: 'https://example.com/thumbnail2.jpg',
+      duration: '5:45',
+    ),
+    SportsVideo(
+      title: 'Best Tennis Moments',
+      thumbnailUrl: 'https://example.com/thumbnail3.jpg',
+      duration: '8:12',
+    ),
+    // Add more sports videos here
+  ];
+
   @override
   Widget build(BuildContext context) {
-    return YoutubePlayerBuilder(
-      player: YoutubePlayer(
-        controller: _controller,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Sports Videos'),
       ),
-      builder: (context, player) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            player,
-            SizedBox(height: 10.0),
-            Container(
-              padding: EdgeInsets.only(left: 10.0, right: 10.0),
-              child: Text(
-                widget.video.title.toString(),
-                style: TextStyle(
-                  fontSize: 15.0,
-                ),
-              ),
-            )
-          ],
-        );
-      }
-  );
+      body: ListView.builder(
+        itemCount: videos.length,
+        itemBuilder: (context, index) {
+          final video = videos[index];
+          return ListTile(
+            leading: Image.network(
+              video.thumbnailUrl,
+              width: 120,
+              height: 90,
+              fit: BoxFit.cover,
+            ),
+            title: Text(video.title),
+            subtitle: Text(video.duration),
+            trailing: Icon(Icons.more_vert),
+            onTap: () {
+              // Handle video selection
+            },
+          );
+        },
+      ),
+    );
   }
 }
