@@ -16,7 +16,20 @@ class RugbyMatch {
   });
 }
 
-class RugbyMatchPredictionsPage extends StatelessWidget {
+class RugbyMatchPredictionsPage extends StatefulWidget {
+  @override
+  State<RugbyMatchPredictionsPage> createState() => _RugbyMatchPredictionsPageState();
+}
+
+class _RugbyMatchPredictionsPageState extends State<RugbyMatchPredictionsPage> {
+   @override
+  void initState() {
+    super.initState();
+    // Call your method here
+    //sendInputData();
+  }
+  var prediction;
+
   Future<void> sendInputData() async {
   var inputData = {
     'data': [[7, 10, 1, 3]]
@@ -32,12 +45,13 @@ class RugbyMatchPredictionsPage extends StatelessWidget {
 
   if (response.statusCode == 200) {
     print("Successfully sent the input data");
-    var prediction = jsonDecode(response.body)['prediction'];
+    prediction = jsonDecode(response.body)['prediction'];
     print('Prediction: $prediction');
   } else {
     print('Failed to send input data. Error: ${response.statusCode}');
   }
 }
+
   final List<RugbyMatch> matchPredictions = [
     RugbyMatch(
       teamA: "Buffaloes",
@@ -149,10 +163,12 @@ class RugbyMatchPredictionsPage extends StatelessWidget {
           final match = matchPredictions[index];
           final winningTeam = match.isWinPrediction ? match.teamA : match.teamB;
           final losingTeam = match.isWinPrediction ? match.teamB : match.teamA;
+         // sendInputData();
           return Card(
             color: Colors.blueGrey[50],
             elevation: 2.0,
             child: ListTile(
+              
               title: Text(
                 '${match.teamA} vs. ${match.teamB}',
                 style: TextStyle(
@@ -176,14 +192,14 @@ class RugbyMatchPredictionsPage extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '${winningTeam} : win',
+                    '${winningTeam} :  ${prediction}',
                     style: TextStyle(
                       color: Colors.green,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   Text(
-                    '${losingTeam} : lose',
+                    '${losingTeam} : ${prediction}',
                     style: TextStyle(
                       color: Colors.red,
                       fontWeight: FontWeight.bold,

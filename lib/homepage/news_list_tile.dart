@@ -26,7 +26,7 @@ class _NewsListTileState extends State<NewsListTile> {
         width: double.infinity,
         margin: EdgeInsets.only(bottom: 20.0),
         padding: EdgeInsets.all(12.0),
-        height: 130,
+        height: 90,
         decoration: BoxDecoration(
           color: Colors.black,
           borderRadius: BorderRadius.circular(26.0),
@@ -50,7 +50,7 @@ class _NewsListTileState extends State<NewsListTile> {
               ),
             ),
             SizedBox(
-              width: 10.0,
+              width: 2.0,
             ),
             Flexible(
                 flex: 5,
@@ -62,7 +62,7 @@ class _NewsListTileState extends State<NewsListTile> {
                           color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(
-                      height: 8.0,
+                      height: 2.0,
                     ),
                     Text(widget.data.content!,
                         overflow: TextOverflow.ellipsis,

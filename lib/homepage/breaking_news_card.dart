@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:rugby_mobile/homepage/details_screen.dart';
 import 'package:rugby_mobile/homepage/news_model.dart';
 
+
+
 class BreakingNewsCard extends StatefulWidget {
   BreakingNewsCard(this.data, {Key? key}) : super(key: key);
   NewsData data;
