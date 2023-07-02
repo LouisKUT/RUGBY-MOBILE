@@ -4,7 +4,13 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:rugby_mobile/authentication/SignIn.dart';
 import 'package:rugby_mobile/authentication/auth.dart';
 import 'package:rugby_mobile/authentication/homepage.dart';
+import 'package:rugby_mobile/dashboard/TableDashboard.dart';
+//import 'package:rugby_mobile/dashboard/inputtopstories.dart';
 import 'package:rugby_mobile/pages/home.dart';
+import 'package:rugby_mobile/pages/scores/scoresdata.dart';
+import 'package:rugby_mobile/pages/tables/TableScreen.dart';
+
+import '../dashboard/ScoresDashboard.dart';
 
 class WidgetTree extends StatefulWidget {
    WidgetTree({Key? key}) : super(key: key);
@@ -20,7 +26,10 @@ class _WidgetTreeState extends State<WidgetTree> {
       stream: Auth().authStateChanges,
     builder: (context, snapshot) {
       if(snapshot.hasData){
-        return HomeScreen();
+        //DashboardPage
+        return LeagueTablePage();
+
+        //HomeScreen();
       }else{
         return const LoginPage();
       }

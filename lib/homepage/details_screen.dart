@@ -1,6 +1,8 @@
 //now let's for the details screen
 
 import 'package:flutter/material.dart';
+import 'package:rugby_mobile/dashboard/models/NewsModel.dart';
+import 'package:rugby_mobile/homepage/MainScreen.dart';
 import 'package:rugby_mobile/homepage/news_model.dart';
 
 class DetailsScreen extends StatefulWidget {

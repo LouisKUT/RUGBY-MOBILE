@@ -1,6 +1,8 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:rugby_mobile/dashboard/models/NewsModel.dart';
+import 'package:rugby_mobile/homepage/MainScreen.dart';
 import 'package:rugby_mobile/homepage/details_screen.dart';
 import 'package:rugby_mobile/homepage/news_model.dart';
 
