@@ -4,9 +4,14 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:rugby_mobile/authentication/SignIn.dart';
 import 'package:rugby_mobile/authentication/auth.dart';
 import 'package:rugby_mobile/authentication/homepage.dart';
+import 'package:rugby_mobile/dashboard/FixturesDashboard.dart';
 import 'package:rugby_mobile/dashboard/TableDashboard.dart';
+import 'package:rugby_mobile/dashboard/models/predictionDashboard.dart';
+import 'package:rugby_mobile/dashboard/videoDashboard.dart';
+import 'package:rugby_mobile/pages/fixtures/fixturesScreen.dart';
 //import 'package:rugby_mobile/dashboard/inputtopstories.dart';
 import 'package:rugby_mobile/pages/home.dart';
+import 'package:rugby_mobile/pages/scores/predictions.dart';
 import 'package:rugby_mobile/pages/scores/scoresdata.dart';
 import 'package:rugby_mobile/pages/tables/TableScreen.dart';
 
@@ -27,7 +32,7 @@ class _WidgetTreeState extends State<WidgetTree> {
     builder: (context, snapshot) {
       if(snapshot.hasData){
         //DashboardPage
-        return LeagueTablePage();
+        return HomeScreen();
 
         //HomeScreen();
       }else{

@@ -122,6 +122,11 @@ class _DashboardPageState extends State<DashboardPage> {
               
               storyprovider.changestorydate(_dateController.text);
               storyprovider.savestories();
+               _titleController.clear();
+  _authorController.clear();
+  _contentController.clear();
+  _urlToImageController.clear();
+  _dateController.clear();
               },
               child: Text('post'),
             ),

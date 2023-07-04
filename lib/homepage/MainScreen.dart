@@ -1,8 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:rugby_mobile/dashboard/FixturesDashboard.dart';
 import 'package:rugby_mobile/dashboard/ScoresDashboard.dart';
+import 'package:rugby_mobile/dashboard/TableDashboard.dart';
 import 'package:rugby_mobile/dashboard/models/NewsModel.dart';
+import 'package:rugby_mobile/dashboard/models/predictionDashboard.dart';
+import 'package:rugby_mobile/dashboard/videoDashboard.dart';
 import 'package:rugby_mobile/homepage/breaking_news_card.dart';
 import 'package:rugby_mobile/homepage/news_list_tile.dart';
 import 'package:rugby_mobile/homepage/news_model.dart';
@@ -93,7 +97,47 @@ TextButton(
   },
   child: Text('Scores Dashboard'),
 ),
+TextButton(
+  onPressed: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => DashboardTables()),
+    );
+  },
+  child: Text('Tables Dashboard'),
+),
+TextButton(
+  onPressed: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => DashboardPredictions()),
+    );
+  },
+  child: Text('Predictions Dashboard'),
+),
+TextButton(
+  onPressed: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => VideoDashboard()),
+    );
+  },
+  child: Text('Videos Dashboard'),
+),
+TextButton(
+  onPressed: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => FixtureDashboard()),
+    );
+  },
+  child: Text('Fixture Dashboard'),
+),
 //DashboardPage
+//DashboardTables
+//DashboardPredictions
+//VideoDashboard
+//FixtureDashboard
             ListTile(
               title: Text('Sign Out'),
               onTap: _signOut,

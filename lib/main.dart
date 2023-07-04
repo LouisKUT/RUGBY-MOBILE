@@ -6,6 +6,7 @@ import 'package:rugby_mobile/homepage/firestore/ScoresProvider.dart';
 import 'package:rugby_mobile/homepage/firestore/TablesProvider.dart';
 import 'package:rugby_mobile/homepage/firestore/Topstoriesprovider.dart';
 import 'package:rugby_mobile/homepage/firestore/firestore_service.dart';
+import 'package:rugby_mobile/homepage/firestore/predictionprovider.dart';
 import 'package:rugby_mobile/pages/home.dart';
 
 
@@ -25,9 +26,11 @@ class MyApp extends StatelessWidget {
     return  MultiProvider(
       providers: [
         //TablesProvider
+      
          ChangeNotifierProvider(create:(context) => storyProvider(),),
          ChangeNotifierProvider(create:(context) => scoresProvider(),),
          ChangeNotifierProvider(create:(context) => TablesProvider(),),
+         ChangeNotifierProvider(create:(context) => PredictionsProvider(),),
       ],
       
       child: MaterialApp(

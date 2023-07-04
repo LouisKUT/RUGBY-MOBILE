@@ -75,6 +75,15 @@ class _DashboardTablesState extends State<DashboardTables> {
                 tablesprovider.changePoints(_pointsController.text);
         
                 tablesprovider.saveTables();
+                setState(() {
+                  _teamController.clear();
+  _playedController.clear();
+  _wonController.clear();
+  _drawnController.clear();
+  _lostController.clear();
+  _pointsController.clear();
+                });
+                 
               },
               child: Text('Post'),
             ),

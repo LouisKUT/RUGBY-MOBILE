@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rugby_mobile/homepage/MainScreen.dart';
 import 'package:rugby_mobile/homepage/testMainscreen.dart';
+import 'package:rugby_mobile/pages/fixtures/fixturesScreen.dart';
 import 'package:rugby_mobile/pages/scores/Scores.dart';
 import 'package:rugby_mobile/pages/fixtures/fixtures.dart';
 import 'package:rugby_mobile/video/videos.dart';
@@ -15,10 +16,10 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
   List<Widget> _widgetOptions = <Widget>[
     MainScreen(),
-    const FixtureScreen(),
+     FixtureScreen(),
    // Videos(),
-   SportsVideosPage(),
-    Scores(),
+   Video2Imp(),
+    const Scores(),
   ];
 
   void _onItemTapped(int index) {
