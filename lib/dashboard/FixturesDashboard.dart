@@ -45,11 +45,11 @@ class _FixtureDashboardState extends State<FixtureDashboard> {
     String teamBLogoUrl = '';
 
     if (teamALogo != null) {
-      teamALogoUrl = await _uploadImageToFirebase(teamALogo!, 'teamA_logo.jpg');
+      teamALogoUrl = await _uploadImageToFirebase(teamALogo!, teamAController.text);
     }
 
     if (teamBLogo != null) {
-      teamBLogoUrl = await _uploadImageToFirebase(teamBLogo!, 'teamB_logo.jpg');
+      teamBLogoUrl = await _uploadImageToFirebase(teamBLogo!, teamBController.text);
     }
 
     // Save fixture data to Firestore
