@@ -18,6 +18,13 @@ class _ScoresState extends State<Scores> {
    int _selectedIndex = 0;
    String tablecode ='fj';
     bool showButtonRow = false;
+    final RugbyMatchPredictionsPage predict= new RugbyMatchPredictionsPage();
+     void initState() {
+    
+    // Call your method here
+    //predict.sendInputData();
+    
+  }
 
   // ignore: prefer_final_fields
   List<Widget> _widgetOptions = <Widget>[

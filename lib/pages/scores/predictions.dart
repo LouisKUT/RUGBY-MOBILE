@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -8,7 +7,7 @@ class RugbyMatch {
   final String team;
   final String opponent;
   final String venue;
-  final int teamRank;
+  final String teamRank;
   final String matchTime;
 
   RugbyMatch({
@@ -20,44 +19,147 @@ class RugbyMatch {
   });
 }
 
-class RugbyMatchPredictionsPage extends StatelessWidget {
+class RugbyMatchPredictionsPage extends StatefulWidget {
+  @override
+  _RugbyMatchPredictionsPageState createState() =>
+      _RugbyMatchPredictionsPageState();
+}
+
+class _RugbyMatchPredictionsPageState
+    extends State<RugbyMatchPredictionsPage> {
   final CollectionReference _predictionsCollection =
       FirebaseFirestore.instance.collection('Predictions');
-         @override
-  void initState() {
-    
-    // Call your method here
-    //sendInputData();
-  }
   var prediction;
 
-  Future<void> sendInputData() async {
-  var inputData = {
-    'data': [[7, 10, 1, 3]]
-  };
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
 
-  var url = 'https://prediction-sever-cfe8b65b-c58f-4c8b-92fe.cranecloud.io/result';
+  Future<void> fetchData() async {
+    final querySnapshot = await _predictionsCollection.get();
+    final predictionDocs = querySnapshot.docs;
 
-  var response = await http.post(
-    Uri.parse(url),
-    headers: {'Content-Type': 'application/json'},
-    body: jsonEncode(inputData),
-  );
+    for (final doc in predictionDocs) {
+      final matchData = MatchData.fromSnapshot(doc);
+      final prediction = await sendInputData(
+        matchData.team.replaceAll(' ', ''),
+        matchData.opponent.replaceAll(' ', ''),
+        matchData.venue.replaceAll(' ', ''),
+        int.parse(matchData.teamRank),
+      );
+      setState(() {
+        matchData.prediction = prediction;
+      });
+    }
+  }
 
-  if (response.statusCode == 200) {
-    print("Successfully sent the input data");
-    prediction = jsonDecode(response.body)['prediction'];
-    print('Prediction: $prediction');
+  Future<String> sendInputData(
+    String team,
+    String opponent,
+    String venue,
+    int teamRank,
+  ) async {
+    // var inputData = {
+    //   'data': [teamRank]
+    // };
+    
+int transMath(String word) {
+  if (word == 'Buffaloes') {
+    return 1;
+  } else if (word == 'Hippos') {
+    return 2;
+  } else if (word == 'Mongers') {
+    return 3;
+  } else if (word == 'Heathens') {
+    return 4;
+  } else if (word == 'Warriors') {
+    return 5;
+  } else if (word == 'Pirates') {
+    return 6;
+  } else if (word == 'Impis') {
+    return 7;
+  } else if (word == 'Kobs') {
+    return 8;
+  } else if (word == 'Rhinos') {
+    return 9;
+  } else if (word == 'Intangas') {
+    return 10;
+  } else if (word == 'Rams') {
+    return 11;
+  } else if (word == 'Boks') {
+    return 12;
+  } else if (word == 'Sailors') {
+    return 13;
+  } else if (word == 'Walukuba') {
+    return 14;
+  } else if (word == 'Jaguars') {
+    return 15;
+  } else if (word == 'Thunderbirds') {
+    return 16;
+  } else if (word == 'Ewes') {
+    return 17;
+  } else if (word == 'Avengers') {
+    return 18;
+  } else if (word == 'Panthers') {
+    return 19;
+  } else if (word == 'Rams 2') {
+    return 20;
   } else {
-    print('Failed to send input data. Error: ${response.statusCode}');
+    return 0; // Return 0 or handle the case when the word is not found
   }
 }
+int trans(String word) {
+  if (word == 'Home') {
+    return 1;
+  } else if (word == 'Away') {
+    return 0;
+  } else {
+    return 5; // Return 0 or handle the case when the word is not found
+  }
+}
+
+
+  int teamCode = transMath(team);
+  int opponentCode = transMath(opponent);
+  int venueCode = trans(venue);
+var inputData = {
+     'data': [[teamCode, opponentCode, venueCode, teamRank]]
+   };
+   print('=============translated data ====================');
+    //print(teamCode + opponentCode + venueCode + teamRank);
+    print("teamcode" + "(" +team + "): " + teamCode.toString());
+    print("oppnentcode" + "(" +opponent + "): "+ opponentCode.toString());
+    print("venuecode" + "(" +venue + "): "+ venueCode.toString());
+    print("rankcode" + "(" +teamRank.toString() + "): " + teamRank.toString());
+// var inputData = {
+//      'data': [[7, 10, 1, 3]]
+//    };
+    var url = 'https://prediction-sever-cfe8b65b-c58f-4c8b-92fe.cranecloud.io/result/';
+
+    var response = await http.post(
+      Uri.parse(url),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(inputData),
+    );
+
+    if (response.statusCode == 200) {
+      print("Successfully sent the input data");
+      final prediction = jsonDecode(response.body)['prediction'];
+      print('Prediction: $prediction');
+      return prediction;
+    } else {
+      print('Failed to send input data. Error: ${response.statusCode}');
+      return '';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Rugby Match Predictions'),
+        title: Text('Prediction odds'),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: _predictionsCollection.snapshots(),
@@ -81,13 +183,14 @@ class RugbyMatchPredictionsPage extends StatelessWidget {
             itemBuilder: (context, index) {
               final doc = predictionDocs[index];
               final matchData = MatchData.fromSnapshot(doc);
+              final prediction = matchData.prediction;
 
               return Card(
                 color: Colors.blueGrey[50],
                 elevation: 2.0,
                 child: ListTile(
                   title: Text(
-                    '${matchData.team} vs. ${matchData.opponent}',
+                    '${matchData.team.replaceAll(' ', '')} vs. ${matchData.opponent.replaceAll(' ', '')}',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
@@ -96,7 +199,7 @@ class RugbyMatchPredictionsPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Venue: ${matchData.venue}',
+                        'Venue: ${matchData.venue.replaceAll(' ', '')}',
                         style: TextStyle(
                           color: Colors.grey[600],
                         ),
@@ -109,32 +212,73 @@ class RugbyMatchPredictionsPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  trailing: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        'Prediction:',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        '${matchData.team} :  ${prediction}',
-                        style: TextStyle(
-                          color: Colors.green,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        '${matchData.opponent} : ${prediction}',
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
+                  trailing:FutureBuilder<String>(
+  future: sendInputData(
+    matchData.team,
+    matchData.opponent,
+    matchData.venue,
+    int.parse(matchData.teamRank),
+  ),
+  builder: (context, snapshot) {
+    if (snapshot.connectionState == ConnectionState.waiting) {
+      return CircularProgressIndicator();
+    } else if (snapshot.hasError) {
+      return Text('Error: ${snapshot.error}');
+    } else {
+      final prediction = snapshot.data ?? '';
+      String teamResult;
+      String opponentResult;
+      Color teamColor;
+      Color opponentColor;
+
+      if (prediction == 'Loss') {
+        teamResult = 'Loss';
+        opponentResult = 'Win';
+        teamColor = Colors.red;
+        opponentColor = Colors.green;
+      } else if (prediction == 'Win') {
+        teamResult = 'Win';
+        opponentResult = 'Loss';
+        teamColor = Colors.green;
+        opponentColor = Colors.red;
+      } else {
+        teamResult = '';
+        opponentResult = '';
+        teamColor = Colors.black;
+        opponentColor = Colors.black;
+      }
+
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Text(
+            'Prediction:',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Text(
+            '${matchData.team} : $teamResult',
+            style: TextStyle(
+              color: teamColor,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Text(
+            '${matchData.opponent} : $opponentResult',
+            style: TextStyle(
+              color: opponentColor,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      );
+    }
+  },
+),
+
+
                 ),
               );
             },
@@ -151,7 +295,7 @@ class MatchData {
   final String venue;
   final String teamRank;
   final String matchTime;
-  //final String prediction;
+  String prediction;
 
   MatchData({
     required this.team,
@@ -159,21 +303,210 @@ class MatchData {
     required this.venue,
     required this.teamRank,
     required this.matchTime,
-    //required this.prediction,
+    required this.prediction,
   });
 
   factory MatchData.fromSnapshot(DocumentSnapshot snapshot) {
-    Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+    final data = snapshot.data() as Map<String, dynamic>;
     return MatchData(
       team: data['team'] ?? '',
       opponent: data['opponent'] ?? '',
       venue: data['venue'] ?? '',
-      teamRank: data['teamRank'] ?? 0,
+      teamRank: data['teamRank'] ?? '0',
       matchTime: data['matchTime'] ?? '',
-     // prediction: data['prediction'] ?? '',
+      prediction: '',
     );
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+// import 'package:flutter/material.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:flutter/material.dart';
+// import 'package:http/http.dart' as http;
+// import 'dart:convert';
+
+// class RugbyMatch {
+//   final String team;
+//   final String opponent;
+//   final String venue;
+//   final int teamRank;
+//   final String matchTime;
+
+//   RugbyMatch({
+//     required this.team,
+//     required this.opponent,
+//     required this.venue,
+//     required this.teamRank,
+//     required this.matchTime,
+//   });
+// }
+
+// class RugbyMatchPredictionsPage extends StatelessWidget {
+//   final CollectionReference _predictionsCollection =
+//       FirebaseFirestore.instance.collection('Predictions');
+//          @override
+//   void initState() {
+    
+//     // Call your method here
+//     //sendInputData();
+    
+//   }
+//   var prediction;
+
+//   Future<void> sendInputData() async {
+//   var inputData = {
+//     'data': [[7, 10, 1, 3]]
+//   };
+
+//   var url = 'https://prediction-sever-cfe8b65b-c58f-4c8b-92fe.cranecloud.io/result/';
+
+//   var response = await http.post(
+//     Uri.parse(url),
+//     headers: {'Content-Type': 'application/json'},
+//     body: jsonEncode(inputData),
+//   );
+
+//   if (response.statusCode == 200) {
+//     print("Successfully sent the input data");
+//     prediction = jsonDecode(response.body)['prediction'];
+//     print('Prediction: $prediction');
+//   } else {
+//     print('Failed to send input data. Error: ${response.statusCode}');
+//   }
+// }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('Prediction odds'),
+//       ),
+//       body: StreamBuilder<QuerySnapshot>(
+//         stream: _predictionsCollection.snapshots(),
+//         builder: (context, snapshot) {
+//           if (snapshot.hasError) {
+//             return Center(
+//               child: Text('Error: ${snapshot.error}'),
+//             );
+//           }
+
+//           if (!snapshot.hasData) {
+//             return Center(
+//               child: CircularProgressIndicator(),
+//             );
+//           }
+
+//           final predictionDocs = snapshot.data!.docs;
+
+//           return ListView.builder(
+//             itemCount: predictionDocs.length,
+//             itemBuilder: (context, index) {
+//               final doc = predictionDocs[index];
+//               final matchData = MatchData.fromSnapshot(doc);
+
+//               return Card(
+//                 color: Colors.blueGrey[50],
+//                 elevation: 2.0,
+//                 child: ListTile(
+//                   title: Text(
+//                     '${matchData.team} vs. ${matchData.opponent}',
+//                     style: TextStyle(
+//                       fontWeight: FontWeight.bold,
+//                     ),
+//                   ),
+//                   subtitle: Column(
+//                     crossAxisAlignment: CrossAxisAlignment.start,
+//                     children: [
+//                       Text(
+//                         'Venue: ${matchData.venue}',
+//                         style: TextStyle(
+//                           color: Colors.grey[600],
+//                         ),
+//                       ),
+//                       Text(
+//                         'Time: ${matchData.matchTime}',
+//                         style: TextStyle(
+//                           color: Colors.grey[600],
+//                         ),
+//                       ),
+//                     ],
+//                   ),
+//                   trailing: Column(
+//                     mainAxisAlignment: MainAxisAlignment.center,
+//                     crossAxisAlignment: CrossAxisAlignment.end,
+//                     children: [
+                      
+//                       Text(
+//                         'Prediction:',
+//                         style: TextStyle(
+//                           fontWeight: FontWeight.bold,
+//                         ),
+//                       ),
+//                       Text(
+//                         '${matchData.team} :  ${prediction}',
+//                         style: TextStyle(
+//                           color: Colors.green,
+//                           fontWeight: FontWeight.bold,
+//                         ),
+//                       ),
+//                       Text(
+//                         '${matchData.opponent} : ${prediction}',
+//                         style: TextStyle(
+//                           color: Colors.red,
+//                           fontWeight: FontWeight.bold,
+//                         ),
+//                       ),
+//                     ],
+//                   ),
+//                 ),
+//               );
+//             },
+//           );
+//         },
+//       ),
+//     );
+//   }
+// }
+
+// class MatchData {
+//   final String team;
+//   final String opponent;
+//   final String venue;
+//   final String teamRank;
+//   final String matchTime;
+//   //final String prediction;
+
+//   MatchData({
+//     required this.team,
+//     required this.opponent,
+//     required this.venue,
+//     required this.teamRank,
+//     required this.matchTime,
+//     //required this.prediction,
+//   });
+
+//   factory MatchData.fromSnapshot(DocumentSnapshot snapshot) {
+//     Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+//     return MatchData(
+//       team: data['team'] ?? '',
+//       opponent: data['opponent'] ?? '',
+//       venue: data['venue'] ?? '',
+//       teamRank: data['teamRank'] ?? 0,
+//       matchTime: data['matchTime'] ?? '',
+//      // prediction: data['prediction'] ?? '',
+//     );
+//   }
+// }
 
 
 

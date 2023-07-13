@@ -9,8 +9,6 @@ import 'package:rugby_mobile/homepage/firestore/firestore_service.dart';
 import 'package:rugby_mobile/homepage/firestore/predictionprovider.dart';
 import 'package:rugby_mobile/pages/home.dart';
 
-
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();

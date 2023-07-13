@@ -13,7 +13,7 @@ Future<void> sendInputData() async {
     'data': [[7, 10, 1, 3]]
   };
 
-  var url = 'http://127.0.0.1:8000/result/';
+  var url = 'https://prediction-sever-cfe8b65b-c58f-4c8b-92fe.cranecloud.io/result/';
 
   var response = await http.post(
     Uri.parse(url),
